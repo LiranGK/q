@@ -1,4 +1,7 @@
-﻿namespace QLab;
+﻿using System.Collections.Generic;
+using static System.Formats.Asn1.AsnWriter;
+
+namespace QLab;
 public class Program
 
 {
@@ -21,6 +24,8 @@ public class Program
         Console.WriteLine(isIn1);
         bool isIn2 = CheckIfInQ(q, 3);
         Console.WriteLine(isIn2);
+        bool IsSides= CheckSidesInPlace(q, 1);
+        Console.WriteLine(IsSides);
     }
     public static bool CheckIfInQ(Queue<int> q, int numToCheck)
     {
@@ -33,6 +38,25 @@ public class Program
             if (curItem == numToCheck) { numInQ = true; }
         }
         return numInQ;
+    }
+    public static bool CheckSidesInPlace(Queue<int> q, int idx)
+    { 
+        bool isSidesEqual=false;
+        Queue < int> qCopy = SetQCopy(q);
+        int curItem;
+        int curPlace=0;
+        int idxItem=0;
+        int sumOfSides = 0;
+        while (!qCopy.IsEmpty())
+        {
+            curPlace++;
+            curItem = qCopy.Remove();
+            if (curPlace == idx - 1) { sumOfSides += curItem;}
+            else if (curPlace == idx) { idxItem = curItem;}
+            else if (curPlace == idx + 1) { sumOfSides += curItem;}
+        }
+        if (sumOfSides == idxItem) {isSidesEqual = true;}
+        return isSidesEqual;
     }
     public static Queue<int> SetQCopy(Queue<int> q)
     {
