@@ -12,6 +12,7 @@ public class Program
         q.Insert(7);
         q.Insert(10);
         q.Insert(3);
+        q.Insert(-7);
         Console.WriteLine(q);
         Queue<int> qCopy = SetQCopy(q);
         Console.WriteLine(q);
@@ -24,8 +25,10 @@ public class Program
         Console.WriteLine(isIn1);
         bool isIn2 = CheckIfInQ(q, 3);
         Console.WriteLine(isIn2);
-        bool IsSides= CheckSidesInPlace(q, 1);
+        bool IsSides= CheckSidesInPlace(q, 3);
         Console.WriteLine(IsSides);
+        bool isPerfect = CheckIfPerfect(q);
+        Console.WriteLine(isPerfect);
     }
     public static bool CheckIfInQ(Queue<int> q, int numToCheck)
     {
@@ -41,22 +44,51 @@ public class Program
     }
     public static bool CheckSidesInPlace(Queue<int> q, int idx)
     { 
-        bool isSidesEqual=false;
-        Queue < int> qCopy = SetQCopy(q);
-        int curItem;
-        int curPlace=0;
-        int idxItem=0;
-        int sumOfSides = 0;
-        while (!qCopy.IsEmpty())
+        Queue<int> qCopy1 = SetQCopy(q);
+        int length = 0;
+        while (!qCopy1.IsEmpty())
         {
-            curPlace++;
-            curItem = qCopy.Remove();
-            if (curPlace == idx - 1) { sumOfSides += curItem;}
-            else if (curPlace == idx) { idxItem = curItem;}
-            else if (curPlace == idx + 1) { sumOfSides += curItem;}
+            qCopy1.Remove();
+            length++;
         }
-        if (sumOfSides == idxItem) {isSidesEqual = true;}
+        bool isSidesEqual=false;
+        if (idx != length && idx != 1)
+        {
+            Queue<int> qCopy2 = SetQCopy(q);
+            int curItem;
+            int curPlace = 0;
+            int idxItem = 0;
+            int sumOfSides = 0;
+            while (!qCopy1.IsEmpty())
+            {
+                curPlace++;
+                curItem = qCopy2.Remove();
+                if (curPlace == idx - 1) { sumOfSides += curItem; }
+                else if (curPlace == idx) { idxItem = curItem; }
+                else if (curPlace == idx + 1) { sumOfSides += curItem; }
+            }
+            if (sumOfSides == idxItem) { isSidesEqual = true; }
+        }
         return isSidesEqual;
+    }
+    public static bool CheckIfPerfect(Queue<int> q) 
+    {
+        Queue<int> qCopy1 = SetQCopy(q);
+        int length = 0;
+        while (!qCopy1.IsEmpty())
+        {
+            qCopy1.Remove();
+            length++;
+        }
+        bool isPerfect=true;
+        bool isCurPerfect=false;
+        Queue<int> qCopy2 = SetQCopy(q);
+        for (int i = 2; i < length; i++) 
+        {
+            isCurPerfect = CheckSidesInPlace(q, i);
+            if (!isCurPerfect) { isPerfect = false; }
+        }
+        return isPerfect;
     }
     public static Queue<int> SetQCopy(Queue<int> q)
     {
