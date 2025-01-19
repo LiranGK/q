@@ -29,6 +29,38 @@ public class Program
         Console.WriteLine(IsSides);
         bool isPerfect = CheckIfPerfect(q);
         Console.WriteLine(isPerfect);
+        Queue<int> q2 = new Queue<int>();
+        q2.Insert(-7);
+        q2.Insert(3);
+        q2.Insert(7);
+        q2.Insert(10);       
+        Queue<int> newQ = PutInQ(q2, 0);
+        Console.WriteLine(newQ);
+    }
+    public static Queue<int> PutInQ(Queue<int> q, int numToPut) 
+    {
+        Queue<int> qCopy = SetQCopy(q);
+        Queue<int> newQ = new Queue<int>();
+        bool foundPlace=false;
+        int curItem;
+        while (!foundPlace)
+        {
+            curItem = qCopy.Remove();
+            if (curItem > numToPut)
+            {
+                Console.WriteLine(curItem);
+                newQ.Insert(numToPut);
+                newQ.Insert(curItem);
+                foundPlace = true;
+            }
+            else { newQ.Insert(curItem); }
+        }
+        while (!qCopy.IsEmpty()) 
+        {
+            curItem = qCopy.Remove();
+            newQ.Insert(curItem);
+        }
+        return newQ;
     }
     public static bool CheckIfInQ(Queue<int> q, int numToCheck)
     {
