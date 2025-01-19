@@ -35,6 +35,11 @@ public class Program
         q2.Insert(7);
         q2.Insert(10);       
         Queue<int> newQ = PutInQ(q2, 0);
+        Console.WriteLine(q2);
+        Console.WriteLine(newQ);
+        newQ = PutInQ(q2, -8);
+        Console.WriteLine(newQ);
+        newQ= PutInQ(q2, 11);
         Console.WriteLine(newQ);
     }
     public static Queue<int> PutInQ(Queue<int> q, int numToPut) 
@@ -43,22 +48,20 @@ public class Program
         Queue<int> newQ = new Queue<int>();
         bool foundPlace=false;
         int curItem;
-        while (!foundPlace)
+        while (!qCopy.IsEmpty()) 
         {
             curItem = qCopy.Remove();
-            if (curItem > numToPut)
+            if ((curItem > numToPut)&&(!foundPlace))
             {
-                Console.WriteLine(curItem);
                 newQ.Insert(numToPut);
                 newQ.Insert(curItem);
                 foundPlace = true;
             }
             else { newQ.Insert(curItem); }
         }
-        while (!qCopy.IsEmpty()) 
+        if (!foundPlace) 
         {
-            curItem = qCopy.Remove();
-            newQ.Insert(curItem);
+            newQ.Insert(numToPut);
         }
         return newQ;
     }
